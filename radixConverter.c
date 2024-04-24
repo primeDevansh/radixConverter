@@ -1,17 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h> //for malloc()
 
-//stack's element
-//stack for entered number's whole part
+//stack's element; stack for entered number's whole part
 //read the following as 'element of stack'
 struct elementStack {
     char val;
     struct elementStack* prev;
 };
-
-//topStack impplies top of stack
+//topStack implies top of stack
 struct elementStack* topStack = NULL;
 
+//queue's element; queue for entered number's fractional part
+//read the following as 'element of queue'
+struct elementQueue {
+    char val;
+    struct elementQueue* next;
+};
+//firstQueue implies first element of queue and similar stuff can be inferred for lastQueue
+struct elementQueue* firstQueue = NULL;
+struct elementQueue* lastQueue = NULL;
+
+//stack functions
+void pushStack(char);
+void popStackAll();
+
+//queue functions
+void enQueue(char);
+void deQueueAll();
+
+//main logic functions
+void decToBase(int);
+void decToBase_beforeRadixPoint(float, int);
+void decToBase_afterRadixPoint(float, int);
+
+//helper functions
+float fractionalPart(float);
+
+//tester functions
+void testStack();
+void testQueue();
+
+int main() {
+    decToBase(16);
+    return 0;
+}
+
+//stack function definitions
 void pushStack(char ch) {
     struct elementStack* temp = (struct elementStack*)malloc(sizeof(struct elementStack));
     if (temp == NULL) {
@@ -42,18 +76,7 @@ void popStackAll() {
     return;
 }
 
-//queue's element
-//queue for entered number's fractional part
-//read the following as 'element of queue'
-struct elementQueue {
-    char val;
-    struct elementQueue* next;
-};
-
-//firstQueue implies first element of queue and similar stuff can be inferred for lastQueue
-struct elementQueue* firstQueue = NULL;
-struct elementQueue* lastQueue = NULL;
-
+//queue function definitions
 void enQueue(char ch) {
     struct elementQueue* temp = (struct elementQueue*)malloc(sizeof(struct elementQueue));
     if (temp == NULL) {
@@ -92,29 +115,20 @@ void deQueueAll() {
     return;
 }
 
-//testing functions
+//main logic function definition
+void decToBase(int toBase) {
+    float no;
+    printf("Enter base-10 number: ");
+    scanf("%f", &no);
 
-void testStack() {
-    printf("Stack Elements: - \n");
-    for(int i = 0; i < 10; i++) {
-        printf("Add %c to Stack.\n", i + 65);
-        pushStack(i + 65);
-    }
-    printf("\nPerforming Pop Stack (FILO): - \n");
+    printf("%f in base-%d is: ", no, toBase);
+    decToBase_beforeRadixPoint(no, toBase);
     popStackAll();
-    printf("\n");
-    return;
-}
-
-void testQueue() {
-    printf("Queue Elements: - \n");
-    for(int i = 0; i < 10; i++) {
-        printf("Add %c to Queue.\n", i + 65);
-        enQueue(i + 65);
-    }
-    printf("\nPerforming DeQueue (FIFO): - \n");
+    printf(".");
+    decToBase_afterRadixPoint(no, toBase);
     deQueueAll();
     printf("\n");
+
     return;
 }
 
@@ -124,7 +138,6 @@ void decToBase_beforeRadixPoint(float no, int toBase) {
 
     if(no == 0) {
         pushStack(48);
-        popStackAll();
         return;
     }
     
@@ -138,11 +151,6 @@ void decToBase_beforeRadixPoint(float no, int toBase) {
         copy /= toBase;
     }
     return;
-}
-
-float fractionalPart(float x) {
-    int integer = x;
-    return (x - integer);
 }
 
 void decToBase_afterRadixPoint(float no, int toBase) {
@@ -167,24 +175,33 @@ void decToBase_afterRadixPoint(float no, int toBase) {
     return;
 }
 
-//we can make it more abstract by introducing 'base' variable and performing all operations on 'base' instead of absolute values.
-void decToBase(int toBase) {
-    float no;
-    printf("Enter base-10 number: ");
-    scanf("%f", &no);
+//helper function definitions
+float fractionalPart(float x) {
+    int integer = x;
+    return (x - integer);
+}
 
-    printf("%f in base-%d is: ", no, toBase);
-    decToBase_beforeRadixPoint(no, toBase);
+//testing functions
+void testStack() {
+    printf("Stack Elements: - \n");
+    for(int i = 0; i < 10; i++) {
+        printf("Add %c to Stack.\n", i + 65);
+        pushStack(i + 65);
+    }
+    printf("\nPerforming Pop Stack (FILO): - \n");
     popStackAll();
-    printf(".");
-    decToBase_afterRadixPoint(no, toBase);
-    deQueueAll();
     printf("\n");
-
     return;
 }
 
-int main() {
-    decToBase(16);
-    return 0;
+void testQueue() {
+    printf("Queue Elements: - \n");
+    for(int i = 0; i < 10; i++) {
+        printf("Add %c to Queue.\n", i + 65);
+        enQueue(i + 65);
+    }
+    printf("\nPerforming DeQueue (FIFO): - \n");
+    deQueueAll();
+    printf("\n");
+    return;
 }
