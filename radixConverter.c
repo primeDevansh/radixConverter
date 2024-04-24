@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> //for malloc()
+#include <math.h>   //for pow()
 
 //stack's element; stack for entered number's whole part
 //read the following as 'element of stack'
@@ -28,10 +29,53 @@ void popStackAll();
 void enQueue(char);
 void deQueueAll();
 
+
+int checkBinPattern(char* s) {
+    int i = 0;
+    while(s[i]) {
+        switch(s[i]) {
+            case '0':
+            case '1':
+                break;
+            default: 
+                return 0;
+        }
+        i++;
+    }
+    return 1;
+}
+
 //main logic functions
 void decToBase(int);
 void decToBase_beforeRadixPoint(float, int);
 void decToBase_afterRadixPoint(float, int);
+void fromBinToDec() {
+    char* s = (char*)malloc(100 * sizeof(char));
+
+    printf("\nEnter bit pattern: ");
+    scanf("%s", s);
+
+    printf("\n\n%s\n\n", s);
+
+    if(!checkBinPattern(s)) {
+        printf("\nPlease enter number pattern according to the base.\n");
+        return;
+    }
+    printf("\n\n%s\n\n", s);
+
+    int length = 0;
+    while(s[++length]);
+
+    printf("\n\n%d\n\n", length);
+
+    int sum = 0;
+    for(int i = 0; s[i]!= '\0'; i++) {
+        sum += ((s[i] - 48) * pow(2, length - i));
+    }
+
+    printf("\nConverted number is: %d\n", sum);
+    return;
+}
 
 //helper functions
 float fractionalPart(float);
@@ -41,7 +85,9 @@ void testStack();
 void testQueue();
 
 int main() {
-    decToBase(16);
+    // decToBase(16);
+    fromBinToDec();
+    fromBinToDec();
     return 0;
 }
 
