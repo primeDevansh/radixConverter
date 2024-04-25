@@ -50,30 +50,27 @@ void decToBase(int);
 void decToBase_beforeRadixPoint(float, int);
 void decToBase_afterRadixPoint(float, int);
 void fromBinToDec() {
-    char* s = (char*)malloc(100 * sizeof(char));
+    char s[50];
+    int length = 0;
 
-    printf("\nEnter bit pattern: ");
+    printf("Enter bit pattern: ");
     scanf("%s", s);
-
-    printf("\n\n%s\n\n", s);
 
     if(!checkBinPattern(s)) {
         printf("\nPlease enter number pattern according to the base.\n");
         return;
     }
-    printf("\n\n%s\n\n", s);
-
-    int length = 0;
-    while(s[++length]);
-
-    printf("\n\n%d\n\n", length);
+    
+    while(s[length])
+        length++;
+    length--;
 
     int sum = 0;
-    for(int i = 0; s[i]!= '\0'; i++) {
-        sum += ((s[i] - 48) * pow(2, length - i));
+    for(int i = 0; s[i] != '\0'; i++) {
+        sum += ((int)(s[i] - 48) * pow(2, length - i));
     }
 
-    printf("\nConverted number is: %d\n", sum);
+    printf("\nDecimal Equivalent is: %d\n", sum);
     return;
 }
 
@@ -86,7 +83,6 @@ void testQueue();
 
 int main() {
     // decToBase(16);
-    fromBinToDec();
     fromBinToDec();
     return 0;
 }
