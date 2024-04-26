@@ -29,53 +29,15 @@ void popStackAll();
 void enQueue(char);
 void deQueueAll();
 
-
-int checkBinPattern(char* s) {
-    int i = 0;
-    while(s[i]) {
-        switch(s[i]) {
-            case '0':
-            case '1':
-                break;
-            default: 
-                return 0;
-        }
-        i++;
-    }
-    return 1;
-}
-
 //main logic functions
 void decToBase(int);
 void decToBase_beforeRadixPoint(float, int);
 void decToBase_afterRadixPoint(float, int);
-void fromBinToDec() {
-    char s[50];
-    int length = 0;
-
-    printf("Enter bit pattern: ");
-    scanf("%s", s);
-
-    if(!checkBinPattern(s)) {
-        printf("\nPlease enter number pattern according to the base.\n");
-        return;
-    }
-    
-    while(s[length])
-        length++;
-    length--;
-
-    int sum = 0;
-    for(int i = 0; s[i] != '\0'; i++) {
-        sum += ((int)(s[i] - 48) * pow(2, length - i));
-    }
-
-    printf("\nDecimal Equivalent is: %d\n", sum);
-    return;
-}
+void fromBaseToDec(int);
 
 //helper functions
 float fractionalPart(float);
+int checkBasePattern(char*, int);
 
 //tester functions
 void testStack();
@@ -83,7 +45,7 @@ void testQueue();
 
 int main() {
     // decToBase(16);
-    fromBinToDec();
+    fromBaseToDec(16);
     return 0;
 }
 
@@ -217,10 +179,123 @@ void decToBase_afterRadixPoint(float no, int toBase) {
     return;
 }
 
+void fromBaseToDec(int fromBase) {
+    char s[50];
+    int length = 0;
+    int charOffset;
+
+    printf("Enter base-%d pattern: ", fromBase);
+    scanf("%s", s);
+
+    if(!checkBasePattern(s, fromBase)) {
+        printf("\nPlease enter number pattern according to the base-%d.\n", fromBase);
+        return;
+    }
+    
+    while(s[length])
+        length++;
+    length--;
+
+    int sum = 0;
+    for(int i = 0; s[i] != '\0'; i++) {
+        (s[i] >= 'A') ? (charOffset = 55) : (charOffset = 48);
+        sum += ((int)(s[i] - charOffset) * pow(fromBase, length - i));
+    }
+
+    printf("\nDecimal Equivalent is: %d\n", sum);
+    return;
+}
+
 //helper function definitions
 float fractionalPart(float x) {
     int integer = x;
     return (x - integer);
+}
+
+int checkBasePattern(char* s, int fromBase) {
+    int i = 0;
+    switch(fromBase) {
+        case 2:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '0':
+                    case '1':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 8:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 10:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 16:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+    }
+    return 1;
 }
 
 //testing functions
