@@ -192,17 +192,29 @@ void fromBaseToDec(int fromBase) {
         return;
     }
     
-    while(s[length])
+    while(s[length] != '.' && s[length] != '\0')
         length++;
     length--;
 
-    int sum = 0;
+    float sum = 0;
+    int radixReached = 0, powToRaise;
     for(int i = 0; s[i] != '\0'; i++) {
+        if(s[i] == '.' && radixReached == 0) {
+            radixReached = 1;
+            powToRaise = -1;
+            continue;
+        }
+        else if(radixReached == 0)
+            powToRaise = length - i;
+
         (s[i] >= 'A') ? (charOffset = 55) : (charOffset = 48);
-        sum += ((int)(s[i] - charOffset) * pow(fromBase, length - i));
+        sum += ((int)(s[i] - charOffset) * pow(fromBase, powToRaise));
+
+        if(radixReached)
+            powToRaise--;
     }
 
-    printf("\nDecimal Equivalent is: %d\n", sum);
+    printf("\nDecimal Equivalent of %s base-%d is: %f\n", s, fromBase, sum);
     return;
 }
 
@@ -218,6 +230,7 @@ int checkBasePattern(char* s, int fromBase) {
         case 2:
             while(s[i]) {
                 switch(s[i]) {
+                    case '.':
                     case '0':
                     case '1':
                         break;
@@ -231,6 +244,7 @@ int checkBasePattern(char* s, int fromBase) {
         case 8:
             while(s[i]) {
                 switch(s[i]) {
+                    case '.':
                     case '0':
                     case '1':
                     case '2':
@@ -250,6 +264,7 @@ int checkBasePattern(char* s, int fromBase) {
         case 10:
             while(s[i]) {
                 switch(s[i]) {
+                    case '.':
                     case '0':
                     case '1':
                     case '2':
@@ -271,6 +286,7 @@ int checkBasePattern(char* s, int fromBase) {
         case 16:
             while(s[i]) {
                 switch(s[i]) {
+                    case '.':
                     case '0':
                     case '1':
                     case '2':
