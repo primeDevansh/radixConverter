@@ -123,3 +123,102 @@ Today, on 24.Apr.24 I have decided to maintain a separate directory and reposito
 To find the previous commits to this repository have a look at my [miscellaneousPrograms](https://github.com/primeDevansh/miscellaneousPrograms) repository's commit history.
 
 ---
+
+### Lets Use a Hash Table/Array To Smartly Implement **int checkBasePattern(char*, int)** Function
+---
+It is 29.Apr.24 I have an idea, why not use a hash array to smartly implement checkBasePattern function. Till now, I was doing it like this:
+
+```C
+int checkBasePattern(char* s, int fromBase) {
+    int i = 0;
+    switch(fromBase) {
+        case 2:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '.':
+                    case '0':
+                    case '1':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 8:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '.':
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 10:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '.':
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+
+        case 16:
+            while(s[i]) {
+                switch(s[i]) {
+                    case '.':
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                        break;
+                    default: 
+                        return 0;
+                }
+                i++;
+            }
+            break;
+    }
+    return 1;
+}
+```
+
+Let's find a better way to do it!
+---
