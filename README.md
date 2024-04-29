@@ -221,4 +221,27 @@ int checkBasePattern(char* s, int fromBase) {
 ```
 
 Let's find a better way to do it!
+
+---
+
+### What The Duck!
+---
+What the duck was I thinking when I had made such a long checkBasePattern function when it could've been implemented in such a short way below:
+
+Like it isn't that I copied the below fragment from somewhere but why the duck had it not struck my mind before. Oh! Ducking! Foolish Deva!
+
+```C
+int checkBasePattern(char* s, int fromBase) {
+    int charOffset;
+    for(int i = 0; s[i]; i++) {
+        if(s[i] == '.')
+            continue;
+        (s[i] > '9') ? (charOffset = 55) : (charOffset = 48);
+
+        if((s[i] - charOffset) >= fromBase || (s[i] - charOffset) < 0)
+            return 0;
+    }
+    return 1;
+}
+```
 ---

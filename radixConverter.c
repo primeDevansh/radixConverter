@@ -225,91 +225,14 @@ float fractionalPart(float x) {
 }
 
 int checkBasePattern(char* s, int fromBase) {
-    int i = 0;
-    switch(fromBase) {
-        case 2:
-            while(s[i]) {
-                switch(s[i]) {
-                    case '.':
-                    case '0':
-                    case '1':
-                        break;
-                    default: 
-                        return 0;
-                }
-                i++;
-            }
-            break;
+    int charOffset;
+    for(int i = 0; s[i]; i++) {
+        if(s[i] == '.')
+            continue;
+        (s[i] > '9') ? (charOffset = 55) : (charOffset = 48);
 
-        case 8:
-            while(s[i]) {
-                switch(s[i]) {
-                    case '.':
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                        break;
-                    default: 
-                        return 0;
-                }
-                i++;
-            }
-            break;
-
-        case 10:
-            while(s[i]) {
-                switch(s[i]) {
-                    case '.':
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        break;
-                    default: 
-                        return 0;
-                }
-                i++;
-            }
-            break;
-
-        case 16:
-            while(s[i]) {
-                switch(s[i]) {
-                    case '.':
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                        break;
-                    default: 
-                        return 0;
-                }
-                i++;
-            }
-            break;
+        if((s[i] - charOffset) >= fromBase || (s[i] - charOffset) < 0)
+            return 0;
     }
     return 1;
 }
